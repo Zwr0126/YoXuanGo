@@ -1,5 +1,5 @@
 // pages/cart/index.js
-import { getSetting, chooseAddress, openSetting, showMdal } from '../../utils/asyncWx.js'
+import { getSetting, chooseAddress, openSetting, showMdal, showToast } from '../../utils/asyncWx.js'
 import regeneratorRuntime from '../../lib/runtime/runtime.js'
 Page({
 
@@ -195,6 +195,30 @@ Page({
       // 5 把cart数组写回data和缓存中
       this.setCart(cart)
     }
+  },
+
+  // 9 点击结算
+  /**
+   * 1 判断有没有收货地址
+   * 2 判断用户有没有选购商品
+   * 3 经过以上验证 跳转至支付页面
+   */
+  async handlePay () {
+    // 1 判断收货地址
+    const { address, totalNum } = this.data
+    if (!address.userName) {
+      await showToast({title: '您还没有选择收货地址'})
+      return
+    }
+    // 2 判断有没有选购商品
+    if (totalNum === 0) {
+      await showToast({title: '您还没有选购商品'})
+      return
+    }
+    // 3 跳转到支付页面
+    wx.navigateTo({
+      url: '/pages/pay/index',
+    })
   },
 
   // 设置购物车状态 重新计算 全选 总价格 总数量

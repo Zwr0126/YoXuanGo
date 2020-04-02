@@ -28,6 +28,21 @@ page {
   border-top: 1rpx solid currentColor;
   border-bottom: 1rpx solid currentColor;
 }
+.cart_main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.cart_main .no_cart {
+  width: 50%;
+  margin-top: 90rpx;
+  margin-bottom: 30rpx;
+}
+.cart_main .no_cart_text {
+  font-size: 30rpx;
+  color: #9F9F9F;
+}
 .cart_main .cart_item {
   display: flex;
   padding: 10rpx;
