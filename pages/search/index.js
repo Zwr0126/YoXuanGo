@@ -1,66 +1,72 @@
 // pages/search/index.js
+/**
+ * 1 输入框绑定 值改变事件 input事件
+ *   1 获取输入框的值
+ *   2 合法性判断
+ *   3 检验通过 把输入框的值 发送到后台
+ *   4 返回数据打印到页面上
+ * 2 防抖 定时器 节流
+ *   0 防抖 一般用于输入框 防止重复输入重复发送请求
+ *   1 节流 一般是用在页面下拉或上拉
+ *   1 定义全局定时器TimeId
+ */
+import { request } from '../../request/index.js'
+import regeneratorRuntime from '../../lib/runtime/runtime.js'
 Page({
-
   /**
    * 页面的初始数据
    */
   data: {
+    goods: [],
+    isFocus: false,
+    inpValue: ''
+  },
+  TimeId: -1,
 
+  // 输入框的值改变事件
+  handleInput (e) {
+    // console.log(e)
+    // 1 获取输入框的值
+    const { value } = e.detail
+    if (!value.trim()) {
+      this.setData({
+        isFocus: false,
+        goods: []
+      })
+      // 值不合法
+      return
+    }
+    // 3 准备发送请求获取数据
+    this.setData({ isFocus: true })
+    clearTimeout(this.TimeId)
+    this.TimeId = setTimeout(() => {
+      this.search(value)
+    }, 1000)
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-
+  // 获取搜索数据
+  async search (query) {
+    // console.log(query)
+    const res = await request({
+      url: '/goods/search',
+      data: {
+        query: query
+      }
+    })
+    // console.log(this.data.isFocus)
+    if (this.data.isFocus === true) {
+      this.setData({
+        goods: res.goods
+      })
+    }
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
+  // 点击取消 清除数据
+  handleCancel () {
+    this.setData({
+      inpValue: '',
+      isFocus: false,
+      goods: []
+    })
   }
 })

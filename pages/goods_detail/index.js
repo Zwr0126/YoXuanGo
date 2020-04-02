@@ -2,21 +2,32 @@
 import { request } from '../../request/index.js'
 import regeneratorRuntime from '../../lib/runtime/runtime.js'
 Page({
-
   /**
    * 页面的初始数据
    */
   data: {
-    goodsObj: {}
+    goodsObj: {},
+    // 商品是否被收藏
+    isCollect: false
   },
   GoodsInfo: {},
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-    // console.log(options.goods_id)
+  onShow () {
+    let pages = getCurrentPages()
+    let currentPage = pages[pages.length - 1]
+    let options = currentPage.options
     const { goods_id } = options
     this.getGoodsDetail(goods_id)
+    // 商品收藏
+    /**
+     * 1 页面onShow的时候 加载缓存中的商品收藏数据
+     * 2 判断当前商品是不是被收藏的
+     *   1 是 改变页面图标
+     *   2 不是
+     * 3 点击商品收藏按钮
+     *   1 判断该商品是否存在于缓存数组中
+     *   2 已经存在 把该商品删除
+     *   3 不存在 把商品添加到收藏数组中 存入到缓存中即可
+     */
   },
 
   // 获取商品详情数据
@@ -24,6 +35,10 @@ Page({
     const goodsObj = await request({ url: '/goods/detail', data: { goods_id } })
     this.GoodsInfo = goodsObj
     // console.log(goodsObj)
+
+    let collect = wx.getStorageSync('collect') || []
+    let isCollect = collect.some(v => v.goods_id === this.GoodsInfo.goods_id)
+
     this.setData({
       goodsObj: {
         goods_name: goodsObj.goods_name,
@@ -33,9 +48,45 @@ Page({
         // 最好找后台修改
         // 临时自己修改 确保后台存在 1.webp => 1.jpg
         goods_introduce: goodsObj.goods_introduce.replace(/\.webp/g, '.jpg')
-      }
+      },
+      isCollect
     })
   },
+
+  // 点击收藏、取消收藏商品
+  handleCollect () {
+    let isCollect = false
+    // 1 获取缓存中的商品收藏数组
+    let collect = wx.getStorageSync('collect') || []
+    // 2 判断商品是否被收藏
+    let index = collect.findIndex(v => v.goods_id === this.GoodsInfo.goods_id)
+    // 3 当index != -1 表示已收藏
+    if (index !== -1) {
+      // 已收藏过 删除数组中的数据
+      collect.splice(index, 1)
+      isCollect = false
+      wx.showToast({
+        title: '取消成功',
+        icon: 'success',
+        mask: true
+      })
+    } else {
+      // 未收藏过
+      collect.push(this.GoodsInfo)
+      isCollect = true
+      wx.showToast({
+        title: '收藏成功',
+        icon: 'success',
+        mask: true
+      })
+    }
+    // 4 把数组存进缓存中
+    wx.setStorageSync('collect', collect)
+    // 5 修改data中的属性 isCollect
+    this.setData({ isCollect })
+
+  },
+
   // 点击轮播图放大预览
   /**
    * 1 给轮播图绑定点击事件

@@ -49,7 +49,7 @@ Page({
       data: { type }
     })
     this.setData({
-      orders: res.orders
+      orders: res.orders.map(v => ({ ...v, create_time_cn: new Date(v.create_time * 1000).toLocaleString()}))
     })
   },
 

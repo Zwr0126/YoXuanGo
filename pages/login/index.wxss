@@ -2,4 +2,6 @@
 button {
   margin-top: 40rpx;
   font-weight: 400;
+  border-color: var(--themeColor) !important;
+  color: var(--themeColor) !important;
 }

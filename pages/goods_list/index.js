@@ -27,7 +27,8 @@ Page({
    */
   onLoad: function (options) {
     // console.log(options)
-    this.QueryParams.cid = options.cid
+    this.QueryParams.cid = options.cid || ''
+    this.QueryParams.query = options.query || ''
     this.getGoodsList()
   },
 

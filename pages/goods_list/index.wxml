@@ -3,7 +3,7 @@
 <SearchInput></SearchInput>
 <!-- 搜索框结束 -->
 
-<!-- 标签也开始 -->
+<!-- 标签页开始 -->
 <Tabs tabs="{{tabs}}" binditemChange="handelTabsItemChange">
   <block wx:if="{{tabs[0].isActive}}">
     <view class="first_tab">
@@ -20,8 +20,12 @@
       </navigator>
     </view>
   </block>
-  <block wx:if="{{tabs[1].isActive}}">1</block>
-  <block wx:if="{{tabs[2].isActive}}">2</block>
+  <block wx:if="{{tabs[1].isActive}}">
+    <view class="_no">还未开发哟</view>
+  </block>
+  <block wx:if="{{tabs[2].isActive}}">
+    <view class="_no">还未开发哟</view>
+  </block>
 </Tabs>
 <!-- 标签页结束 -->
  

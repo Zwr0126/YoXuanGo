@@ -1,2 +1,32 @@
 <!--pages/feedback/index.wxml-->
-<text>pages/feedback/index.wxml</text>
+<Tabs tabs="{{tabs}}" binditemChange="handleTabsItemChange">
+  <block wx:if="{{tabs[0].isActive}}">
+    <view class="fd_main">
+      <view class="fd_title">问题的种类</view>
+      <view class="fd_tips">
+        <text>功能建议</text>
+        <text>购买遇到问题</text>
+        <text>性能问题</text>
+        <text>其他</text>
+      </view>
+      <view class="fd_content">
+        <textarea placeholder="请描述一下您的问题" value="{{textVal}}" bindinput="handleTextInput"></textarea>
+        <view class="fd_tool">
+          <button bindtap="handleChooseImg">+</button>
+          <view class="up_img_item" wx:for="{{chooseImgs}}" wx:key="*this" data-index="{{index}}" bindtap="handleRemoveImg">
+            <UpImg src="{{item}}"></UpImg>
+          </view>
+        </view>
+      </view>
+      <view class="form_btn_wrap">
+        <button type="warn" bindtap="hendleFormSubmit">
+          <icon type="success_no_circle" color="#fff"></icon>
+          提交
+        </button>
+      </view>
+    </view>
+  </block>
+  <block wx:elif="{{tabs[1].isActive}}">
+    <view class="_no">还未开发哟</view>
+  </block>
+</Tabs>

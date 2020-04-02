@@ -7,6 +7,8 @@ page {
 }
 .revice_address_row .address_btn button {
   font-weight: 400;
+  border-color: var(--themeColor) !important;
+  color: var(--themeColor) !important;
 }
 
 .user_info_row {

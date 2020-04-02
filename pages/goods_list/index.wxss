@@ -2,6 +2,7 @@
 .first_tab .goods_item {
   display: flex;
   border-bottom: 1rpx solid #cccccc;
+  padding: 5rpx 0;
 }
 .first_tab .goods_item .goods_img_wrap {
   flex: 2;
@@ -30,4 +31,5 @@
   font-size: 32rpx;
   text-align: right;
   margin-right: 20rpx;
+  margin-top: 20rpx;
 }

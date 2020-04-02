@@ -1,6 +1,6 @@
 <!--pages/order/index.wxml-->
 <Tabs tabs="{{tabs}}" binditemChange="handelTabsItemChange">
-  <view class="order_main">
+  <view wx:if="{{orders.length>0}}" class="order_main">
     <view class="order_item" wx:for="{{orders}}" wx:key="order_id">
       <view class="order_no_row">
         <view class="order_no_text">订单编号</view>
@@ -8,9 +8,15 @@
       </view>
       <view class="order_price_row">
         <view class="order_price_text">订单价格</view>
-        <view class="order_price_value">{{item.order_price}}</view>
+        <view class="order_price_value">￥{{item.order_price}}</view>
+      </view>
+      <view class="order_time_row">
+        <view class="order_time_text">订单日期</view>
+        <view class="order_time_value">{{item.create_time_cn}}</view>
       </view>
     </view>
-    <view class="order_time_row"></view>
+  </view>
+  <view wx:else class="order_main">
+    <image mode="widthFix" src="http://hbimg.huabanimg.com/9b9dbf5d306c17c5c9dd734f6b0d39f82ab17bdc28e3e-8xgKF0_fw236"></image>
   </view>
 </Tabs>

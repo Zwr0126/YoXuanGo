@@ -27,3 +27,10 @@ page, view, text, block, swiper, swiper-item, image, navigator {
  image {
    width: 100%;
  }
+ 
+ ._no {
+  font-size: 30rpx;
+  color: #666;
+  text-align: center;
+  padding-top: 60rpx;
+ }
